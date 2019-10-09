@@ -70,14 +70,24 @@ router.post('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => { 
     const id = req.params.id;
 
-    res.status(200).json({
-        message: `got record id ${id}`
-    });
+    recordsModel
+        .getRecordById(id)
+        .then((result) => {
+            res.status(200).json({
+                error: false,
+                message: `got record id ${id}`,
+                record: result
+            });
+        })
+        .catch((err) => {
+            console.log('err: ', err);
+        });
 });
 
 router.patch('/:id', (req, res, next) => {
     const id = req.params.id;
-
+    const body = req.body;
+    
     res.status(200).json({
         message: `patched record id ${id}`
     });
@@ -86,9 +96,16 @@ router.patch('/:id', (req, res, next) => {
 router.delete('/:id', (req, res, next) => {
     const id = req.params.id;
 
-    res.status(200).json({
-        message: `deleted record id ${id}`
-    });
+    recordsModel
+        .deleteRecordById(id)
+        .then((result) => {
+            res.status(200).json({
+                message: `deleted record id ${id}`
+            });
+        })
+        .catch((err) => {
+            console.log('err: ', err);
+        });
 });
 
 module.exports = router;

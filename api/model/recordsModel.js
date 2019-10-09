@@ -33,4 +33,36 @@ Record.getAllRecords = () => {
     });
 }
 
+Record.getRecordById = (id) => {
+    return new Promise((resolve, reject) => {
+        sql.query(
+            'SELECT * FROM records WHERE id=?',
+            [id],
+            (err, rows, fields) => {
+                if (rows === undefined) {
+                    reject(new Error('err: rows is undefined'));
+                } else {
+                    resolve(rows);
+                }
+            }
+        );
+    });
+}
+
+Record.deleteRecordById = (id) => {
+    return new Promise((resolve, reject) => {
+        sql.query(
+            'DELETE FROM records WHERE id=?',
+            [id],
+            (err, rows, fields) => {
+                if (rows === undefined) {
+                    reject(new Error('err: rows is undefined'));
+                } else {
+                    resolve(rows);
+                }
+            }
+        );
+    });
+}
+
 module.exports = Record;
