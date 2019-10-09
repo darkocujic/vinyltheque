@@ -1,12 +1,28 @@
 const sql = require('../../db');
 
-const Record = {};
+const Artist = {};
 
-Record.addRecord = (body, artistId) => {
+Artist.addArtist = (artist) => {
     return new Promise((resolve, reject) => {
         sql.query(
-            'INSERT INTO records (artist_id, album, year, tags) VALUES (?, ?, ?, ?)',
-            [artistId, body.album, body.year, body.tags],
+            'INSERT INTO artists (artist) VALUES (?)',
+            [artist],
+            (err, rows, fields) => {
+                if (rows === undefined) {
+                    reject (new Error('err: rows is undefined'));
+                } else {
+                    resolve(rows);
+                }
+            }
+        )
+    });
+}
+
+Artist.getArtistIdByName = (artist) => {
+    return new Promise((resolve, reject) => {
+        sql.query(
+            'SELECT id FROM artists WHERE artist=?',
+            [artist],
             (err, rows, fields) => {
                 if (rows == undefined) {
                     reject(new Error('err: rows is undefined'));
@@ -18,19 +34,4 @@ Record.addRecord = (body, artistId) => {
     });
 }
 
-Record.getAllRecords = () => {
-    return new Promise((resolve, reject) => {
-        sql.query(
-            'SELECT * FROM records AS r JOIN artists AS a ON r.artist_id = a.id',
-            (err, rows, fields) => {
-                if (rows === undefined) {
-                    reject(new Error('err: rows is undefined'));
-                } else {
-                    resolve(rows);
-                }
-            }
-        );
-    });
-}
-
-module.exports = Record;
+module.exports = Artist;

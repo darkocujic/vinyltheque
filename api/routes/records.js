@@ -2,61 +2,69 @@ const express = require('express');
 const router = express.Router();
 
 const recordsModel = require('../model/recordsModel');
+const artistModel = require('../model/artistModel');
 
 router.get('/', (req, res, next) => {
-    sql.query('SELECT * FROM records AS r INNER JOIN artists AS a ON r.artist_id = a.id', (err, result) => {
-        if (err) {
-            // console.log(err);
-            res.status(500).json({
-                msg: "error",
-                desc: "something went wrong"
-            });
-        } else {
+    recordsModel
+        .getAllRecords()
+        .then((result) => {
             res.status(200).json({
-                msg: 'success',
-                res: result
-            });        
-        }
-    });
+                error: false,
+                msg: 'got all records',
+                records: result
+            });
+        })
+        .catch((err) => {
+            console.log('err: ', err);
+        });
 });
 
 router.post('/', (req, res, next) => {
     const artist = req.body.artist;
-    // var artistId = '';
-    
-    const artistId = recordsModel.findArtistByName(artist).then((artistId) => console.log(artistId));
-    // , (results) => {
-    //     console.log('results in route: ', results);
-    //     artistId = results.res;
-    //     console.log('inside: ', artistId);
-    // });
-    console.log('outside: ', artistId);
+   
+    artistModel
+        .getArtistIdByName(artist)
+        .then((result) => {
+            let artistId;
+            if (result.length) {
+                artistId = result[0].id;
+            };
+            if (artistId !== undefined) {
+                recordsModel
+                    .addRecord(req.body, artistId)
+                    .then((result) => {
+                        res.status(201).json({
+                            msg: 'record added'
+                        });
+                    })
+                    .catch((err) => {
+                        console.log('err: ', err);
+                    })
+            } else {
+                artistModel
+                    .addArtist(artist)
+                    .then((result) => {
+                        const artistId = result.insertId;
 
-    // if (artistId === '' || artistId === undefined) {
-    //     sql.query('INSERT INTO artists (artist) VALUES (' + mysql.escape(artist) + ')', (err, result) => {
-    //         if (err) {
-    //             res.status(500).json({
-    //                 msg: "error",
-    //                 desc: "something went wrong on insert in POST /"
-    //             });
-    //         } else {
-    //             artistId = result.insertId;
-    //         }
-    //     })
-    // }
-
-    // const record = {
-    //     artistId: req.body.artistId,
-    //     album: req.body.album,
-    //     year: req.body.year,
-    //     tags: req.body.tags
-    // };
-
-    res.status(201).json({
-        msg: 'all cool for post',
-        // artistId: artistId
-        // record: record
-    });
+                        recordsModel
+                            .addRecord(req.body, artistId)
+                            .then((result) => {
+                                res.status(201).json({
+                                    msg: 'record added'
+                                });        
+                            })
+                            .catch((err) => {
+                                console.log('err: ', err);
+                            })
+                    })
+                    .catch((err) => {
+                        console.log('err: ', err);
+                    })
+            }
+        })
+        .catch((err) => {
+            console.log('err: ', err);
+        });
 });
 
 router.get('/:id', (req, res, next) => { 
