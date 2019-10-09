@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => {
     const artist = req.body.artist;
    
     artistModel
-        .getArtistIdByName(artist)
+        .getArtistByName(artist)
         .then((result) => {
             let artistId;
             if (result.length) {
