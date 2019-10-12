@@ -8,8 +8,8 @@ class Search extends Component {
     constructor(props){
       super(props);
       this.props = props;
-      console.log('this.props');
-      console.log(this.props);
+    //   console.log('this.props');
+    //   console.log(this.props);
     }
   
     render() {
@@ -21,7 +21,7 @@ class Search extends Component {
                 type="text"
                 placeholder="Type something..." 
                 id="search"
-                onChange={e => this.props.handleChange}
+                onChange={e => this.props.handleChange(e)}
                 />
         </Form>
       </Col>

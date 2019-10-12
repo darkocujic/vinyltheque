@@ -10,54 +10,8 @@ class Grid extends Component {
     constructor(props){
 			super(props);
 			this.props = props;
-
-			this.state = {
-				filtered: []
-			}
-			
-			this.handleChange = this.handleChange.bind(this);
-
 		}
 		
-		componentDidMount() {
-			this.setState({
-				filtered: this.props.records
-			})
-		}
-	
-		componentWillReceiveProps(nextProps) {
-			this.setState({
-				filtered: nextProps.records
-			})
-		}
-
-		handleChange(e) {
-			console.log('handleChange');
-			let currentRecords = []
-			let newRecords = []
-
-			if (e.target.value !== '') {
-				currentRecords = this.props.records;
-
-				newRecords = currentRecords.filter((record) => {
-					console.log(record);
-					const artistlc = record.artist.toLowerCase();
-					const albumlc = record.album.toLowerCase();
-					const searchlc = e.target.value.toLowerCase();
-
-					return(artistlc.indexOf(searchlc) !== '-1' || albumlc.indexOf(searchlc) !== '-1')
-				})
-			} else {
-				newRecords = this.props.records;
-			}
-
-			this.setState({
-				filtered: newRecords
-			});
-		}
-		
-
-    
     render() {
       return (
         <Container fluid={true}>

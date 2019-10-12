@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/row';
-
 import Header from './components/header';
-import Grid from './components/grid';
-import Search from './components/search';
+import Main from './components/main';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -35,11 +31,9 @@ class App extends Component {
       
     })
     .then((res) => {
-      console.log(res.data.records)
       this.setState({
         data: Array.from(res.data.records)
       })
-      console.log(this.state.data);
     })    
   }
 
@@ -52,16 +46,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <Row>
-          <Col xl={9} md={8}>
-            {/* {console.log('aa')}
-            {console.log(this.state.data)} */}
-            <Grid records={this.state.data}/>
-          </Col>
-          <Col xl={3} md={4}>
-            <Search />
-          </Col>
-        </Row>
+        <Main records={this.state.data} />
       </div>
     );
     }
