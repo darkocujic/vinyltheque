@@ -12,7 +12,7 @@ class Record extends Component {
 
   render() {
     return (
-    <Col xl={3} lg={3} md={6} s={6} className="grid__record-single_card">
+    <Col xl={3} lg={4} md={6} s={6} className="grid__record-single_card">
       <img src={this.record.img ? 
         `../img/covers/${this.record.img}` : 
         `https://via.placeholder.com/150/`  

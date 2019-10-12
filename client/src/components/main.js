@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/row';
+import Row from 'react-bootstrap/Row';
 
 import Grid from './grid';
 import Search from './search';
@@ -100,7 +100,7 @@ class Main extends Component {
     render() {
       return (
         <Row>
-            <Col xl={9} md={8}>
+            <Col xl={9} md={9}>
                 <DropdownButton 
                     title="Sort by..." 
                     onSelect={(e) => this.handleSort(e)}
@@ -116,7 +116,7 @@ class Main extends Component {
                 </DropdownButton>
                 <Grid records={this.state.filtered}/>
             </Col>
-            <Col xl={3} md={4}>
+            <Col xl={3} md={3} >
                 <Search handleChange={this.handleChange}/>
                 <AddNew />
             </Col>

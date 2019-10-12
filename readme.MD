@@ -21,10 +21,16 @@ create a new database called 'vinyltheque' and import from db.sql (make sure you
 mysql -uroot -p vinyltheque < db.sql
 ```
 
+change your mysql user credentials in db.js
+add a .env file in /client with PORT=<port-where-you-want-to-start-it(8000 or 3001)>
+
 use npm to start both servers
 ```bash
 npm run con
 ```
+
+## credits
+Logo done with [LogoMaker](https://logomakr.com/)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

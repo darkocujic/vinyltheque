@@ -5,7 +5,7 @@ import Header from './components/header';
 import Main from './components/main';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import './style.css';
 
 // const API_URL = 'http://localhost:3000/';
 axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
