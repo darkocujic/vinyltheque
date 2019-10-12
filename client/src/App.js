@@ -38,9 +38,8 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.getRecords();
+    setInterval(this.getRecords(), 2000);
   }
-
 
   render() {
     return (

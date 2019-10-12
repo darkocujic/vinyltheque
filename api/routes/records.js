@@ -20,6 +20,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    // console.log(req.body);
     const artist = req.body.artist;
    
     artistModel

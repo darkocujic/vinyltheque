@@ -5,6 +5,9 @@ import Row from 'react-bootstrap/row';
 
 import Grid from './grid';
 import Search from './search';
+import AddNew from './addnew'
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 class Main extends Component {
 
@@ -16,6 +19,7 @@ class Main extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleSort = this.handleSort.bind(this);
     }
 
     componentDidMount() {
@@ -30,6 +34,33 @@ class Main extends Component {
         })
     }
 
+    handleSort(e) {
+        let by = e;
+        let sort = by.split('-')[0];
+        let order = by.split('-')[1];
+        let sortRecords = [];
+
+        if (order === 'asc') {
+            sortRecords = this.state.filtered.sort((reca, recb) => {
+                if(reca[sort] < recb[sort]) { return -1; }
+                if(reca[sort] > recb[sort]) { return 1; }
+                return 0;
+            })
+            
+        } else {
+            sortRecords = this.state.filtered.sort((reca, recb) => {
+                if(reca[sort] > recb[sort]) { return -1; }
+                if(reca[sort] < recb[sort]) { return 1; }
+                return 0;
+            })
+        }
+
+        this.setState({
+            filtered: sortRecords
+        });
+
+    }
+
     handleChange(e) {
         let currentRecords = []
         let newRecords = []
@@ -42,14 +73,17 @@ class Main extends Component {
                 const albumlc = record.album.toLowerCase();
                 const searchlc = e.target.value.toLowerCase();
 
-                return(artistlc.indexOf(searchlc) !== -1 || albumlc.indexOf(searchlc) !== -1)
+                const tags = record.tags.toLowerCase();
+
+
+                return(artistlc.indexOf(searchlc) !== -1 || albumlc.indexOf(searchlc) !== -1 || artistlc.concat(' ', albumlc).indexOf(searchlc) !== -1)
             })
         } else {
             newRecords = this.props.records;
         }
 
         this.setState({
-            filtered: newRecords
+           filtered: newRecords
         });
     }
 
@@ -58,12 +92,26 @@ class Main extends Component {
     render() {
       return (
         <Row>
-        <Col xl={9} md={8}>
-            <Grid records={this.state.filtered}/>
-        </Col>
-        <Col xl={3} md={4}>
-            <Search handleChange={this.handleChange}/>
-        </Col>
+            <Col xl={9} md={8}>
+                <DropdownButton 
+                    title="Sort by..." 
+                    onSelect={(e) => this.handleSort(e)}
+                    className="mt-4 grid__sort-by"
+                    variant="secondary"   
+                >
+                    <Dropdown.Item eventKey="artist-asc">Artist ASC</Dropdown.Item>
+                    <Dropdown.Item eventKey="artist-desc">Artist DESC</Dropdown.Item>
+                    <Dropdown.Item eventKey="album-asc">Album ASC</Dropdown.Item>
+                    <Dropdown.Item eventKey="album-desc">Album DESC</Dropdown.Item>
+                    <Dropdown.Item eventKey="year-asc">Year ASC</Dropdown.Item>
+                    <Dropdown.Item eventKey="year-desc">Year DESC</Dropdown.Item>
+                </DropdownButton>
+                <Grid records={this.state.filtered}/>
+            </Col>
+            <Col xl={3} md={4}>
+                <Search handleChange={this.handleChange}/>
+                <AddNew />
+            </Col>
         </Row>
       );
       }
