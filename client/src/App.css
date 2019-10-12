@@ -2,21 +2,30 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
+.navbar {
+  -webkit-box-shadow: 0px 5px 17px 1px rgba(52,58,64,0.5);
+  -moz-box-shadow: 0px 5px 17px 1px rgba(52,58,64,0.5);
+  box-shadow: 0px 5px 17px 1px rgba(52,58,64,0.5);}
+
+.navbar__brand {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.grid__row {
+  padding: 3em 0 3em 5em;
 }
 
-.App-link {
-  color: #09d3ac;
+.grid__record-single_card {
+  margin-bottom: 2em;
+}
+
+.grid__record-single_card .grid__record-artist {
+  margin-top: 0.5em;
+}
+
+.grid__search {
+  text-align: left;
+  padding: 2.5em 2em 1em 0;
+  padding-top: 2.5em;
 }

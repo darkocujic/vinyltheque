@@ -5,8 +5,8 @@ const Record = {};
 Record.addRecord = (body, artistId) => {
     return new Promise((resolve, reject) => {
         sql.query(
-            'INSERT INTO records (artist_id, album, year, tags) VALUES (?, ?, ?, ?)',
-            [artistId, body.album, body.year, body.tags],
+            'INSERT INTO records (artist_id, album, img, year, tags) VALUES (?, ?, ?, ?, ?)',
+            [artistId, body.album, body.img, body.year, body.tags],
             (err, rows, fields) => {
                 if (rows == undefined) {
                     reject(new Error('err: rows is undefined'));
@@ -21,7 +21,7 @@ Record.addRecord = (body, artistId) => {
 Record.getAllRecords = () => {
     return new Promise((resolve, reject) => {
         sql.query(
-            'SELECT * FROM records AS r JOIN artists AS a ON r.artist_id = a.id',
+            'SELECT r.id, a.artist, r.album, r.img, r.tags, r.year FROM records AS r LEFT JOIN artists AS a ON r.artist_id = a.id',
             (err, rows, fields) => {
                 if (rows === undefined) {
                     reject(new Error('err: rows is undefined'));

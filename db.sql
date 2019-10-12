@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2019 at 11:10 PM
+-- Generation Time: Oct 11, 2019 at 07:32 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -39,7 +39,11 @@ CREATE TABLE `artists` (
 
 INSERT INTO `artists` (`id`, `artist`) VALUES
 (1, 'Led Zeppelin'),
-(20, 'Ten Years After');
+(20, 'Ten Years After'),
+(21, 'Miles Davis'),
+(26, 'The National'),
+(27, 'Nina Simone'),
+(28, 'Santana');
 
 -- --------------------------------------------------------
 
@@ -51,6 +55,7 @@ CREATE TABLE `records` (
   `id` int(11) NOT NULL,
   `artist_id` int(11) NOT NULL,
   `album` varchar(255) NOT NULL,
+  `img` varchar(255) NOT NULL,
   `year` int(11) NOT NULL,
   `tags` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -59,8 +64,11 @@ CREATE TABLE `records` (
 -- Dumping data for table `records`
 --
 
-INSERT INTO `records` (`id`, `artist_id`, `album`, `year`, `tags`) VALUES
-(1, 1, 'III', 1970, 'rock, 70s');
+INSERT INTO `records` (`id`, `artist_id`, `album`, `img`, `year`, `tags`) VALUES
+(1, 1, 'III', '', 1970, 'rock, 70s'),
+(5, 1, 'IV', '', 1971, 'rock, 70s'),
+(9, 26, 'Sleep Well Beast', '', 2017, 'rock'),
+(10, 27, 'Little Girl Blue', '', 2016, 'jazz');
 
 --
 -- Indexes for dumped tables
@@ -88,13 +96,13 @@ ALTER TABLE `records`
 -- AUTO_INCREMENT for table `artists`
 --
 ALTER TABLE `artists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `records`
 --
 ALTER TABLE `records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
