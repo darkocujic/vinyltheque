@@ -68,7 +68,7 @@ class AddNew extends Component {
                             className="mt-4 grid__add-new-btn"
                             href="#"
                             size="lg"
-                            variant="success"
+                            variant="secondary"
                             onClick={this.addNewSubmit}
                         >
                             +

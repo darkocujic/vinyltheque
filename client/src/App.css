@@ -24,25 +24,6 @@
   background-color: #343a40;
 }
 
-/* ..grid__sort-by button:focus,  */
-
-/* .grid__sort-by button:active {
-  background-color: #d8d8d8 !important;
-  color: #343a40 !important;
-  border: none !important;
-}
-.grid__sort-by button:focus {
-  background-color: #d8d8d8 !important;
-  color: #343a40 !important;
-  border: none !important;
-}
-.grid__sort-by button:hover {
-  background-color: #d8d8d8 !important;
-  color: #343a40 !important;
-  border: none !important;
-} */
-
-
 .navbar__brand {
   margin-left: auto;
   margin-right: auto;
@@ -76,9 +57,9 @@
   padding-bottom: 1em;
 }
 
-.grid__add-new a {
+/* .grid__add-new a {
   background-color: #343a40 !important;
-}
+} */
 
 .grid__add-new h3, .grid__search h3 {
   margin-bottom: 0.5em;
