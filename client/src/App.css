@@ -39,6 +39,7 @@
 
 .grid__record-single_card img {
   border-radius: 5px;
+  border: 1px solid #343a40;
 }
 
 .grid__record-single_card .grid__record-artist {

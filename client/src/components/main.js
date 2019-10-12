@@ -79,22 +79,12 @@ class Main extends Component {
                 });
 
                 let reduced = tag.filter((single) => {
-                    // console.log('----------')
-                    // console.log(single)
-                    // console.log(single.indexOf(searchlc))
-                    // console.log('----------')
                     if (single.indexOf(searchlc) !== -1) {
                         return 1;
                     } else {
                         return 0;
                     }
-                                        // return single.indexOf(searchlc) !== -1;
                 });
-
-                // console.log(reducedTags);
-
-                // console.log(tag);
-                console.log(reduced.length);
 
                 return( reduced.length || artistlc.indexOf(searchlc) !== -1 || albumlc.indexOf(searchlc) !== -1 || artistlc.concat(' ', albumlc).indexOf(searchlc) !== -1)
             })
@@ -106,8 +96,6 @@ class Main extends Component {
            filtered: newRecords
         });
     }
-
-
   
     render() {
       return (
