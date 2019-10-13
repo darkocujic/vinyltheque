@@ -60,6 +60,11 @@ input, input:before, input:after, textarea {
 .grid__record-single_card img {
   border-radius: 5px;
   border: 1px solid #343a40;
+  transition: transform .5s ease;
+}
+
+.grid__record-single_card:hover img {
+  transform: scale(1.1);
 }
 
 .grid__record-single_card .grid__record-artist {
@@ -77,10 +82,6 @@ input, input:before, input:after, textarea {
   padding-top: 1em;
   padding-bottom: 1em;
 }
-
-/* .grid__add-new a {
-  background-color: #343a40 !important;
-} */
 
 .grid__add-new h3, .grid__search h3 {
   margin-bottom: 0.5em;
