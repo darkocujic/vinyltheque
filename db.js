@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 const sql = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database : "vinyltheque"
+    host: process.env.JAWSDB_URL,
+    user: process.env.JAWSDB_USER,
+    password: process.env.JAWSDB_PASS,
+    database : process.env.JAWSDB_DB
 });
 
 sql.connect((err) => {
