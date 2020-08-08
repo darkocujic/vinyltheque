@@ -1,38 +1,42 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+const recordRoutes = Router();
+const { getAllRecords } = require('../model/recordsModel')
+// import { getAllRecords, addRecord, getRecordById, deleteRecordById } from '../model/recordsModel';
+// import { getArtistByName, addArtist } from '../model/artistModel';
 
-const recordsModel = require('../model/recordsModel');
-const artistModel = require('../model/artistModel');
+recordRoutes.get('/', async (req, res) => {
+    let records;
 
-router.get('/', (req, res, next) => {
-    recordsModel
-        .getAllRecords()
-        .then((result) => {
-            res.status(200).json({
-                error: false,
-                msg: 'got all records',
-                records: result
-            });
+    try {
+        records = await getAllRecords();
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            error: true,
+            errMsg: 'Can\'t read from DB.'
         })
-        .catch((err) => {
-            console.log('err: ', err);
-        });
+    }
+
+    if (records) {
+        return res.status(200).json({
+            error: false,
+            records
+        })
+    }
 });
 
-router.post('/', (req, res, next) => {
+recordRoutes.post('/', (req, res, next) => {
     // console.log(req.body);
     const artist = req.body.artist;
    
-    artistModel
-        .getArtistByName(artist)
+    getArtistByName(artist)
         .then((result) => {
             let artistId;
             if (result.length) {
                 artistId = result[0].id;
             };
             if (artistId !== undefined) {
-                recordsModel
-                    .addRecord(req.body, artistId)
+                addRecord(req.body, artistId)
                     .then((result) => {
                         res.status(201).json({
                             msg: 'record added'
@@ -42,13 +46,11 @@ router.post('/', (req, res, next) => {
                         console.log('err: ', err);
                     })
             } else {
-                artistModel
-                    .addArtist(artist)
+                addArtist(artist)
                     .then((result) => {
                         const artistId = result.insertId;
 
-                        recordsModel
-                            .addRecord(req.body, artistId)
+                        addRecord(req.body, artistId)
                             .then((result) => {
                                 res.status(201).json({
                                     msg: 'record added'
@@ -68,11 +70,10 @@ router.post('/', (req, res, next) => {
         });
 });
 
-router.get('/:id', (req, res, next) => { 
+recordRoutes.get('/:id', (req, res, next) => { 
     const id = req.params.id;
 
-    recordsModel
-        .getRecordById(id)
+    getRecordById(id)
         .then((result) => {
             res.status(200).json({
                 error: false,
@@ -85,7 +86,7 @@ router.get('/:id', (req, res, next) => {
         });
 });
 
-router.patch('/:id', (req, res, next) => {
+recordRoutes.patch('/:id', (req, res, next) => {
     const id = req.params.id;
     const body = req.body;
     
@@ -94,11 +95,10 @@ router.patch('/:id', (req, res, next) => {
     });
 });
 
-router.delete('/:id', (req, res, next) => {
+recordRoutes.delete('/:id', (req, res, next) => {
     const id = req.params.id;
 
-    recordsModel
-        .deleteRecordById(id)
+    deleteRecordById(id)
         .then((result) => {
             res.status(200).json({
                 message: `deleted record id ${id}`
@@ -109,4 +109,4 @@ router.delete('/:id', (req, res, next) => {
         });
 });
 
-module.exports = router;
+export default recordRoutes;

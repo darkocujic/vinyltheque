@@ -1,8 +1,6 @@
-const sql = require('../../db');
+const models = require('../../models')
 
-const Record = {};
-
-Record.addRecord = (body, artistId) => {
+const addRecord = (body, artistId) => {
     return new Promise((resolve, reject) => {
         sql.query(
             'INSERT INTO records (artist_id, album, img, year, tags) VALUES (?, ?, ?, ?, ?)',
@@ -18,22 +16,19 @@ Record.addRecord = (body, artistId) => {
     });
 }
 
-Record.getAllRecords = () => {
-    return new Promise((resolve, reject) => {
-        sql.query(
-            'SELECT r.id, a.artist, r.album, r.img, r.tags, r.year FROM records AS r LEFT JOIN artists AS a ON r.artist_id = a.id',
-            (err, rows, fields) => {
-                if (rows === undefined) {
-                    reject(new Error('err: rows is undefined'));
-                } else {
-                    resolve(rows);
-                }
+const getAllRecords = async () => {
+    let records = await models.record.findAll({
+        include: [
+            {
+                model: models.artist
             }
-        );
-    });
+        ]
+    })
+
+    return records.map(record => record.dataValues)
 }
 
-Record.getRecordById = (id) => {
+const getRecordById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(
             'SELECT * FROM records WHERE id=?',
@@ -49,7 +44,7 @@ Record.getRecordById = (id) => {
     });
 }
 
-Record.deleteRecordById = (id) => {
+const deleteRecordById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(
             'DELETE FROM records WHERE id=?',
@@ -65,4 +60,9 @@ Record.deleteRecordById = (id) => {
     });
 }
 
-module.exports = Record;
+module.exports = {
+  addRecord,
+  deleteRecordById,
+  getAllRecords,
+  getRecordById
+};
