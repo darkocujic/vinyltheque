@@ -21,7 +21,7 @@ class Record extends Component {
         width={200}
         height={200}
         />
-      <h3 className="grid__record-artist">{this.record.artist}</h3>
+      <h3 className="grid__record-artist">{this.record.artist.artist}</h3>
       <h4>{this.record.album}</h4>
       <h6 className="grid__record-year">{this.record.year}</h6>
       <p className="grid__record-tags">{this.record.tags}</p>
