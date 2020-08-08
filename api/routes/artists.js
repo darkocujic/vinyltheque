@@ -1,12 +1,11 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+const router = Router();
 
-const recordsModel = require('../model/recordsModel');
-const artistModel = require('../model/artistModel');
+import recordsModel from '../model/recordsModel';
+import { getAllArtists, addArtist, getArtistById } from '../model/artistModel';
 
 router.get('/', (req, res, next) => {
-    artistModel
-        .getAllArtists()
+    getAllArtists()
         .then((result) => {
             res.status(200).json({
                 error: false,
@@ -22,8 +21,7 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
     const artist = req.body.artist;
 
-    artistModel
-        .addArtist(artist)
+    addArtist(artist)
         .then((result) => {
             const artistId = result.insertId;
 
@@ -42,8 +40,7 @@ router.post('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
 
-    artistModel
-        .getArtistById(id)
+    getArtistById(id)
         .then((result) => {
             res.status(200).json({
                 error: false,
@@ -72,4 +69,4 @@ router.delete('/:id', (req, res, next) => {
     });
 });
 
-module.exports = router;
+export default router;

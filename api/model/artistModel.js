@@ -1,8 +1,6 @@
-const sql = require('../../db');
+import sql from '../../db';
 
-const Artist = {};
-
-Artist.addArtist = (artist) => {
+const addArtist = (artist) => {
     return new Promise((resolve, reject) => {
         sql.query(
             'INSERT INTO artists (artist) VALUES (?)',
@@ -18,7 +16,7 @@ Artist.addArtist = (artist) => {
     });
 }
 
-Artist.getArtistByName = (artist) => {
+const getArtistByName = (artist) => {
     return new Promise((resolve, reject) => {
         sql.query(
             'SELECT * FROM artists WHERE artist=?',
@@ -34,7 +32,7 @@ Artist.getArtistByName = (artist) => {
     });
 }
 
-Artist.getArtistById = (id) => {
+const getArtistById = (id) => {
     return new Promise((resolve, reject) => {
         sql.query(
             'SELECT * FROM artists WHERE id=?',
@@ -50,7 +48,7 @@ Artist.getArtistById = (id) => {
     });
 }
 
-Artist.getAllArtists = () => {
+const getAllArtists = () => {
     return new Promise((resolve, reject) => {
         sql.query(
             'SELECT * FROM artists',
@@ -65,4 +63,9 @@ Artist.getAllArtists = () => {
     });
 }
 
-module.exports = Artist;
+module.exports = {
+    addArtist,
+    getAllArtists,
+    getArtistById,
+    getArtistByName
+}

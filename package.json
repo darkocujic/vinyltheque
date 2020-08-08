@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "con": "concurrently \"nodemon server.js\" \"cd client && npm start\""
+    "start": "nodemon -r esm -r dotenv/config server.js",
+    "con": "concurrently \"nodemon -r esm -r dotenv/config server.js\" \"cd client && npm start\""
   },
   "keywords": [
     "lp",
@@ -17,9 +17,14 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "db-migrate": "^0.11.11",
+    "db-migrate-mysql": "^2.1.1",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
-    "mysql": "^2.17.1"
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.4"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",

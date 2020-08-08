@@ -1,11 +1,12 @@
-const express = require('express');
-const app = express();
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express from 'express';
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
-const recordRoutes = require('./api/routes/records');
-const artistRoutes = require('./api/routes/artists');
+import recordRoutes from './api/routes/records';
+// import artistRoutes from './api/routes/artists';
+
+const app = express();
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -25,8 +26,8 @@ app.use((res, req, next) => {
     next();
 });
 
-app.use('/records', recordRoutes);
-app.use('/artists', artistRoutes);
+app.use('/api/records', recordRoutes);
+// app.use('/artists', artistRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
@@ -43,4 +44,4 @@ app.use((error, req, res, next) => {
     });
 });
 
-module.exports = app;
+export default app;
