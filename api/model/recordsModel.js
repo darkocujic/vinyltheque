@@ -1,4 +1,5 @@
 const models = require('../../models')
+const { Op } = require("sequelize");
 
 const addRecord = (body, artistId) => {
     return new Promise((resolve, reject) => {
@@ -16,16 +17,46 @@ const addRecord = (body, artistId) => {
     });
 }
 
-const getAllRecords = async () => {
-    let records = await models.record.findAll({
+const getAllRecords = async ({ page, limit, order, search, sort }) => {
+
+    page  = page  || 1;
+    order = order.toUpperCase() || 'ASC';
+    // sort  = 'album';
+    sort  = sort  || 'artist';
+    search = search ? `%${ search }%` : '%%';
+    limit = limit || 12;
+
+    console.log(search)
+
+    let records = await models.record.findAndCountAll({
+        where: {
+            [Op.or]: [
+                { album: {[Op.like]: search} },
+                { year: {[Op.like]: search} },
+                { tags: {[Op.like]: search} }
+            ]
+        },
         include: [
             {
-                model: models.artist
+                model: models.artist,
+                where: {
+                    // TODO: fix search, OR artist.artist LIKE
+                    [Op.or]: [
+                        { artist: {[Op.like]: search} }
+                    ]
+                }
             }
-        ]
+        ],
+        offset: (parseInt(page) - 1) * parseInt(limit),
+        limit: parseInt(limit),
+        order: sort == 'artist' ? [[models.artist, sort, order]] : [[sort, order]]
     })
+    // TODO: implement order and sort -> respective for included artists
 
-    return records.map(record => record.dataValues)
+    return {
+        count: records.count,
+        records: records.rows.map(record => record.dataValues)
+    }
 }
 
 const getRecordById = (id) => {

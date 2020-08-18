@@ -5,10 +5,13 @@ const { getAllRecords } = require('../model/recordsModel')
 // import { getArtistByName, addArtist } from '../model/artistModel';
 
 recordRoutes.get('/', async (req, res) => {
+    console.log(req.query);
+    let { page, limit, order, search, sort } = req.query;
+    
     let records;
 
     try {
-        records = await getAllRecords();
+        records = await getAllRecords({ page, limit, order, search, sort });
     } catch (err) {
         console.log(err);
         return res.status(500).json({
@@ -20,7 +23,8 @@ recordRoutes.get('/', async (req, res) => {
     if (records) {
         return res.status(200).json({
             error: false,
-            records
+            records: records.records,
+            count: records.count
         })
     }
 });
