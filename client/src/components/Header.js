@@ -4,10 +4,10 @@ import Navbar from 'react-bootstrap/Navbar';
 function Header(props) {
 	return (
 		<header>
-			<Navbar bg="dark" className="navbar" expand="true">
+			<Navbar className="navbar" expand="true">
 				<Navbar.Brand className="navbar__brand">
 				<img
-					src="../img/logo2_white.png"
+					src="../img/logo_svg.svg"
 					alt="logo"
 					height="80"
 					className="d-inline-block align-top"

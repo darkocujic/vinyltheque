@@ -1,29 +1,31 @@
 import React from 'react';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { MdPeople } from 'react-icons/md';
+import { FaRecordVinyl, FaLongArrowAltDown, FaLongArrowAltUp } from 'react-icons/fa';
+import { BsCalendarFill } from 'react-icons/bs';
 
 function Sort(props) {
     const handleSort = (e) => {
-        let [sort, order] = e.split('-');
-        props.updateSort(sort);
-        props.updateOrder(order);
-
+        props.updateOrder(e.target instanceof SVGElement ? e.target.closest('div').dataset.sort : e.target.dataset.sort);
+    }
+    
+    const handleBy = (e) => {
+        props.updateSort(e.target instanceof SVGElement ? e.target.closest('div').dataset.by : e.target.dataset.by);
     }
 
     return (
-        <DropdownButton 
-            title="Sort by..." 
-            onSelect={(e) => handleSort(e)}
-            className="mt-4 grid__sort-by"
-            variant="secondary"   
-        >
-            <Dropdown.Item eventKey="artist-asc">Artist ASC</Dropdown.Item>
-            <Dropdown.Item eventKey="artist-desc">Artist DESC</Dropdown.Item>
-            <Dropdown.Item eventKey="album-asc">Album ASC</Dropdown.Item>
-            <Dropdown.Item eventKey="album-desc">Album DESC</Dropdown.Item>
-            <Dropdown.Item eventKey="year-asc">Year ASC</Dropdown.Item>
-            <Dropdown.Item eventKey="year-desc">Year DESC</Dropdown.Item>
-        </DropdownButton>
+        <div className="filters__group filter__sort">
+            <div className="filter__sort-by">
+                <div className={"filter__single filter__left" + (props.currentSort == 'artist' ? ' used' : '')} data-by="artist" onClick={handleBy}><MdPeople /></div>
+                <div className={"filter__single" + (props.currentSort == 'album' ? ' used' : '')} data-by="album" onClick={handleBy}><FaRecordVinyl /></div>
+                <div className={"filter__single filter__right" + (props.currentSort == 'year' ? ' used' : '')} data-by="year" onClick={handleBy}><BsCalendarFill /></div>
+            </div>
+            <div className="filter__sort-sort">
+                <div className={"filter__single filter__left" + (props.currentOrder == 'asc' ? ' used' : '')} data-sort="asc" onClick={handleSort}><FaLongArrowAltDown /></div>
+                <div className={"filter__single filter__right" + (props.currentOrder == 'desc' ? ' used' : '')} data-sort="desc" onClick={handleSort}><FaLongArrowAltUp /></div>                
+            </div>
+        </div>
     );
 }
 

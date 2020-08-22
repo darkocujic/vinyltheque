@@ -23,18 +23,21 @@ function Grid(props) {
 						/>
 					})
 				}
+			</Row>
+			<Row>
+				{/* TODO: replace pagination component... uglyyyy */}
 				<Pagination>
 					{
 						[...Array(props.total)].map((_, i) => i+1).map(paginationPage => {
 							return (
-							<Pagination.Item key={paginationPage} active={paginationPage === props.page} onClick={updatePage}>
+							<Pagination.Item key={paginationPage} active={paginationPage == props.page} onClick={updatePage}>
 								{paginationPage}
 							</Pagination.Item>
 							)
 						})
 					}
 				</Pagination>
-			</Row>            
+			</Row>
 		</Container>
 	);
 }

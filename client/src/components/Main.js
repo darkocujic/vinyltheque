@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
+import Header from './Header';
+import SidebarTagCloud from './SidebarTagCloud';
 import Grid from './Grid';
 import Search from './Search';
 import AddNew from './addnew'
@@ -43,6 +45,10 @@ function Main(props) {
         })
     }
 
+    const updateSearch = (val) => {
+        setSearch(val)
+    }
+
     useEffect(() => {
         setLoading(true);
         getRecords();
@@ -50,28 +56,33 @@ function Main(props) {
 
     return (
         <Row>
-            <Col xl={9} md={9}>
-                <Filters 
-                    updateLimit={setLimit}
-                    updateSort={setSort}
-                    updateOrder={setOrder}
-                />
+            <Col xl={9} md={9} className="grid">
                 {
                     !error ?
                     (
                         !loading ? 
                         <Grid records={vinyls} total={totalPages} page={page} updatePage={setPage} /> :
                         <h1>still loading</h1>
-                    ) :
-                    <div>
+                        ) :
+                        <div>
                         <h1>Error</h1>
                         <p>{errMsg}</p>
                     </div>
                 }
             </Col>
-            <Col xl={3} md={3} >
-                <Search handleSearch={setSearch}/>
-                <AddNew />
+            <Col xl={3} md={3} className="sidebar">
+                <Header />
+                <Filters 
+                    updateLimit={setLimit}
+                    updateSort={setSort}
+                    updateOrder={setOrder}
+                    currentLimit={limit}
+                    currentSort={sort}
+                    currentOrder={order}
+                />
+                <Search handleSearch={setSearch} searchValue={search} />
+                <SidebarTagCloud updateSearch={updateSearch} />
+                {/* <AddNew /> */}
             </Col>
         </Row>
     );

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const recordRoutes = Router();
-const { getAllRecords } = require('../model/recordsModel')
+const { getAllRecords, getAllTags, sortAndCountTags } = require('../model/recordsModel')
 // import { getAllRecords, addRecord, getRecordById, deleteRecordById } from '../model/recordsModel';
 // import { getArtistByName, addArtist } from '../model/artistModel';
 
@@ -73,6 +73,13 @@ recordRoutes.post('/', (req, res, next) => {
             console.log('err: ', err);
         });
 });
+
+recordRoutes.get('/tags', async (req, res) => {
+    let tags = await getAllTags();
+    let sortedTags = sortAndCountTags(tags);
+
+    return res.status(200).json(sortedTags || [])
+})
 
 recordRoutes.get('/:id', (req, res, next) => { 
     const id = req.params.id;

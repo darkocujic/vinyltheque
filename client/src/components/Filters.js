@@ -6,17 +6,22 @@ import DisplayType from './filters/DisplayType';
 
 function Filters(props) {
     return (
-        <div>
-            <ul>
-                <li><DisplayType /></li>
-                <li><PerPage updateLimit={props.updateLimit}/></li>
-                <li>
-                    <Sort 
-                        updateSort={props.updateSort}
-                        updateOrder={props.updateOrder}
+        <div className="filters">
+            <div className="filters__row filters__first">
+                <DisplayType />
+                <PerPage
+                    updateLimit={props.updateLimit}
+                    currentLimit={props.currentLimit}
                     />
-                </li>
-            </ul>
+            </div>
+            <div className="filters__row filters__second">
+                <Sort 
+                    updateSort={props.updateSort}
+                    updateOrder={props.updateOrder}
+                    currentSort={props.currentSort}
+                    currentOrder={props.currentOrder}
+                />
+            </div>
         </div>
     );
 }

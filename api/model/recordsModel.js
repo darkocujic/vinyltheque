@@ -20,8 +20,7 @@ const addRecord = (body, artistId) => {
 const getAllRecords = async ({ page, limit, order, search, sort }) => {
 
     page  = page  || 1;
-    order = order.toUpperCase() || 'ASC';
-    // sort  = 'album';
+    order = order ? order.toUpperCase() : 'ASC';
     sort  = sort  || 'artist';
     search = search ? `%${ search }%` : '%%';
     limit = limit || 12;
@@ -33,30 +32,60 @@ const getAllRecords = async ({ page, limit, order, search, sort }) => {
             [Op.or]: [
                 { album: {[Op.like]: search} },
                 { year: {[Op.like]: search} },
-                { tags: {[Op.like]: search} }
+                { tags: {[Op.like]: search} },
+                { '$artist.artist$': {[Op.like]: search}}
             ]
         },
         include: [
             {
                 model: models.artist,
-                where: {
-                    // TODO: fix search, OR artist.artist LIKE
-                    [Op.or]: [
-                        { artist: {[Op.like]: search} }
-                    ]
-                }
             }
         ],
         offset: (parseInt(page) - 1) * parseInt(limit),
         limit: parseInt(limit),
         order: sort == 'artist' ? [[models.artist, sort, order]] : [[sort, order]]
     })
-    // TODO: implement order and sort -> respective for included artists
 
     return {
         count: records.count,
         records: records.rows.map(record => record.dataValues)
     }
+}
+
+const getAllTags = async () => {
+    let tags = await models.record.findAll({
+        attributes: ['tags']
+    });
+
+    return tags.map(tag => tag.dataValues)
+}
+
+const sortAndCountTags = (tags) => {
+    let tagValue = [];
+    let tagCount = [];
+    let counted = [];
+    var allTags = [];
+    
+    // TODO: maybe optimise this some time in your career
+
+    tags.map(tag => tag.tags.split(',')).forEach(tagArray => allTags = [...allTags, ...tagArray])
+
+    allTags.forEach((tag, i) => {
+        if (tagValue.indexOf(tag.trim()) == -1) {
+            tagValue.push(tag.trim());
+            tagCount.push(1);
+        } else {
+            // let index = tagValue.indexOf(tag.trim().replace(/ /g, '-'));
+            let index = tagValue.indexOf(tag.trim());
+            tagCount[index] = tagCount[index] + 1;
+        }
+    })
+
+    tagValue.forEach((tag, i) => {
+        counted.push({ value: tag, count: tagCount[i]})
+    })
+
+    return counted;
 }
 
 const getRecordById = (id) => {
@@ -95,5 +124,7 @@ module.exports = {
   addRecord,
   deleteRecordById,
   getAllRecords,
-  getRecordById
+  getRecordById,
+  getAllTags,
+  sortAndCountTags
 };
