@@ -1,6 +1,6 @@
 {
   "name": "vinyltheque",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "My vinyl collection",
   "main": "server.js",
   "scripts": {
@@ -15,20 +15,19 @@
   "author": "Darko Cujic",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "db-migrate": "^0.11.12",
-    "db-migrate-mysql": "^2.1.2",
     "dotenv": "^8.2.0",
-    "esm": "^3.2.25",
-    "express": "^4.17.1",
-    "morgan": "^1.9.1",
-    "mysql2": "^2.2.5",
-    "node-sass": "^4.14.1",
-    "sequelize": "^5.22.4"
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.7"
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
   }
 }
