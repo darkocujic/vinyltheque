@@ -21,7 +21,21 @@ class CollectionController {
         .collection()
         .getReleases("drCh", 0, { page, per_page: perPage });
 
-      res.status(200).json(releases);
+      const records = releases.releases.map((release) => ({
+        id: release.id,
+        img: release.basic_information.cover_image,
+        artist: {
+          artist: release.basic_information.artists.map((a) => a.name),
+        },
+        album: release.basic_information.title,
+        tags: `${release.basic_information.genres.join(
+          ", "
+        )}, ${release.basic_information.styles.join(", ")}`,
+      }));
+
+      const count = releases.pagination.items;
+
+      res.status(200).json({ records, count });
     } catch (err: any) {
       next(err);
     }
@@ -33,7 +47,6 @@ class CollectionController {
       if (!id) throw new Error(`Define what record to search for`);
 
       const release = await discogsService.database().getRelease(id);
-
       res.status(200).json();
     } catch (err) {
       next(err);

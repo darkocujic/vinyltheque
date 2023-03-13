@@ -1,11 +1,18 @@
 /// <reference path="./discogs-types.d.ts" />
 
 declare namespace CollectionTypes {
-
-  type GetReleasesSortingKeys = "label" | "artist" | "title" | "catno" | "format" | "rating" | "added" | "year"
+  type GetReleasesSortingKeys =
+    | "label"
+    | "artist"
+    | "title"
+    | "catno"
+    | "format"
+    | "rating"
+    | "added"
+    | "year";
 
   interface UserFolders {
-    folders: UserFolder[]
+    folders: UserFolder[];
   }
 
   interface UserFolder {
@@ -16,8 +23,8 @@ declare namespace CollectionTypes {
   }
 
   interface ReleasesInstancesResponse {
-    pagination: DiscogsTypes.Pagination,
-    releases: ReleaseInstance[]
+    pagination: DiscogsTypes.Pagination;
+    releases: ReleaseInstance[];
   }
 
   interface ReleaseInstance {
@@ -26,7 +33,7 @@ declare namespace CollectionTypes {
     basic_information: BasicInformation;
     id: number;
     rating: number;
-    notes?: Note[] // for the owners
+    notes?: Note[]; // for the owners
   }
 
   interface Note {
@@ -46,6 +53,8 @@ declare namespace CollectionTypes {
     cover_image: string;
     resource_url: string;
     master_id: number;
+    genres: string[];
+    styles: string[];
   }
 
   interface Artist {

@@ -1,5 +1,6 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
+import cors from "cors";
 import { Controller } from "./interfaces/controller.interface";
 import errorMiddleware from "./middleware/error.middleware";
 import morganMiddleware from "./middleware/morgan.middleware";
@@ -21,9 +22,10 @@ class App {
   }
 
   private initializeMiddleware() {
+    this.app.use(cors());
     this.app.use(express.json());
     this.app.use(morganMiddleware);
-    // this.app.use(helmet());
+    this.app.use(helmet());
   }
 
   private initializeControllers(controllers: Controller[]) {

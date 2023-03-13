@@ -7,7 +7,6 @@ const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  logger.debug("hit this route");
   const status = error.status || 500;
 
   logger.error(
