@@ -1,91 +1,95 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
-import Header from './Header';
-import SidebarTagCloud from './SidebarTagCloud';
-import Grid from './Grid';
-import Search from './Search';
-import AddNew from './addnew'
-import Filters from './Filters';
-import Axios from 'axios';
+import Header from "./Header";
+import SidebarTagCloud from "./SidebarTagCloud";
+import Grid from "./Grid";
+import Search from "./Search";
+import AddNew from "./addnew";
+import Filters from "./Filters";
+import Axios from "axios";
 
 function Main(props) {
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-    const [vinyls, setVinyls] = useState([]);
-    
-    const [totalPages, setTotalPages] = useState([1]);
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(12);
-    const [search, setSearch] = useState('');
-    const [sort, setSort] = useState('artist');
-    const [order, setOrder] = useState('asc');
+  const [vinyls, setVinyls] = useState([]);
 
-    const [error, setError] = useState(false);
-    const [errMsg, setErrMsg] = useState('');
+  const [totalPages, setTotalPages] = useState([1]);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("artist");
+  const [order, setOrder] = useState("asc");
 
-    const getRecords = async () => {
-        Axios
-        .get('http://localhost:3001/api/records', {
-            params: { search, page, sort, order, limit }
-        })
-        .then(res => {
-            console.log(res.data)
-            setVinyls(res.data.records);
-            setTotalPages(Math.floor(res.data.count / limit) + 1);
-            setLoading(false);
-        })
-        .catch(err => {
-            console.log(err);
-            setLoading(false);
-            setError(true);
-            setErrMsg('Can\'t fetch records.')
-        })
-    }
+  const [error, setError] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
-    const updateSearch = (val) => {
-        setSearch(val)
-    }
+  const getRecords = async () => {
+    Axios.get("http://localhost:3000/api/collection", {
+      params: { search, page, sort, order, limit },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setVinyls(res.data.records);
+        setTotalPages(Math.floor(res.data.count / limit) + 1);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setError(true);
+        setErrMsg("Can't fetch records.");
+      });
+  };
 
-    useEffect(() => {
-        setLoading(true);
-        getRecords();
-    }, [page, limit, search, sort, order])
+  const updateSearch = (val) => {
+    setSearch(val);
+  };
 
-    return (
-        <Row>
-            <Col xl={9} md={9} className="grid">
-                {
-                    !error ?
-                    (
-                        !loading ? 
-                        <Grid records={vinyls} total={totalPages} page={page} updatePage={setPage} /> :
-                        <h1>still loading</h1>
-                        ) :
-                        <div>
-                        <h1>Error</h1>
-                        <p>{errMsg}</p>
-                    </div>
-                }
-            </Col>
-            <Col xl={3} md={3} className="sidebar">
-                <Header />
-                <Filters 
-                    updateLimit={setLimit}
-                    updateSort={setSort}
-                    updateOrder={setOrder}
-                    currentLimit={limit}
-                    currentSort={sort}
-                    currentOrder={order}
-                />
-                <Search handleSearch={setSearch} searchValue={search} />
-                <SidebarTagCloud updateSearch={updateSearch} />
-                {/* <AddNew /> */}
-            </Col>
-        </Row>
-    );
+  useEffect(() => {
+    setLoading(true);
+    getRecords();
+  }, [page, limit, search, sort, order]);
+
+  return (
+    <Row>
+      <Col xl={9} md={9} className="grid">
+        {!error ? (
+          !loading ? (
+            <Grid
+              records={vinyls}
+              total={totalPages}
+              page={page}
+              updatePage={setPage}
+            />
+          ) : (
+            <h1>still loading</h1>
+          )
+        ) : (
+          <div>
+            <h1>Error</h1>
+            <p>{errMsg}</p>
+          </div>
+        )}
+      </Col>
+      <Col xl={3} md={3} className="sidebar">
+        <Header />
+        <Filters
+          updateLimit={setLimit}
+          updateSort={setSort}
+          updateOrder={setOrder}
+          currentLimit={limit}
+          currentSort={sort}
+          currentOrder={order}
+        />
+        <Search handleSearch={setSearch} searchValue={search} />
+        <SidebarTagCloud updateSearch={updateSearch} />
+        <AddNew />
+      </Col>
+    </Row>
+  );
 }
 export default Main;
 
@@ -126,7 +130,7 @@ export default Main;
 //                 if(reca[sort] > recb[sort]) { return 1; }
 //                 return 0;
 //             })
-            
+
 //         } else {
 //             sortRecords = this.state.filtered.sort((reca, recb) => {
 //                 if(reca[sort] > recb[sort]) { return -1; }
@@ -147,7 +151,7 @@ export default Main;
 
 //         if (e.target.value !== '') {
 //             currentRecords = this.props.records;
-            
+
 //             newRecords = currentRecords.filter((record) => {
 //                 const artistlc = record.artist.toLowerCase();
 //                 const albumlc = record.album.toLowerCase();
@@ -155,7 +159,7 @@ export default Main;
 
 //                 const tags = record.tags.toLowerCase();
 //                 let tag = tags.split(',').map((tag) => {
-//                    return tag.trim();                    
+//                    return tag.trim();
 //                 });
 
 //                 let reduced = tag.filter((single) => {
@@ -176,7 +180,7 @@ export default Main;
 //            filtered: newRecords
 //         });
 //     }
-  
+
 //     render() {
 //       return (
 //         <Row>
@@ -192,6 +196,5 @@ export default Main;
 //       );
 //       }
 //   }
-  
+
 //   export default Main;
-  

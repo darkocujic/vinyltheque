@@ -4,33 +4,45 @@ Vinyltheque was made when I needed a way to catalogue my vinyl collection. It's 
 
 ## How-To
 
-clone the repo
-```bash
-git clone <https or ssh link>
-```
+### Prerequisites
 
-install npm in backend and frontend
-```bash
-npm install
-cd client
-npm install
-```
+- NodeJS v18
 
-create a new database called 'vinyltheque' and import from db.sql (make sure you're in the root of the project)
-```bash
-mysql -uroot -p vinyltheque < db.sql
-```
+### Instructions
 
-change your mysql user credentials in db.js
-add a .env file in /client with PORT=<port-where-you-want-to-start-it(8000 or 3001)>
+0. clone the repo
 
-use npm to start both servers
-```bash
-npm run con
-```
+   ```bash
+   git clone <https or ssh link>
+   ```
 
-## credits
+1. install npm in backend and frontend
+
+   ```bash
+   npm ci
+   cd client
+   npm ci
+   ```
+
+2. modify environment variables
+
+   ```bash
+   cd <project-root>
+   cp .env.sample .env
+   # edit file contents
+   ```
+
+3. start everything
+
+   ```bash
+   npm run start:dev # for development or
+   npm run start:prod # for production use
+   ```
+
+## Credits
+
 Logo done with [LogoMaker](https://logomakr.com/)
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
